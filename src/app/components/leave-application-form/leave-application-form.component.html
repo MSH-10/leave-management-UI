@@ -1,0 +1,126 @@
+               <!-- Success message div--> 
+<div *ngIf="messageVisible" class="success-message">Leave Application Submitted Successfully.</div>
+<div>
+    <div>
+      <form
+        [formGroup]="applicationForm"
+        (ngSubmit)="onSubmitForm()"
+        fxLayout="row wrap"
+        fxLayout.xs="column"
+        fxFlexFill
+        fxFlex
+        fxLayoutGap="2%"
+        #gForm="ngForm"
+      >
+        <mat-form-field fxFlex="48" fxFlex.xs="100">
+          <mat-label>Applicant</mat-label>
+          <mat-select
+            formControlName="applicantUserId"
+            (selectionChange)="onApplicantChange($event.value)"
+          >
+            <mat-option *ngFor="let user of applicants" [value]="user.id">
+              {{ user.fullName }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="applicationForm.get('applicantUserId')?.hasError('required')"
+            >Please select applicant</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field fxFlex="48" fxFlex.xs="100">
+          <mat-label>Manager</mat-label>
+          <mat-select formControlName="managerId">
+            <mat-option *ngFor="let user of managers" [value]="user.id">
+              {{ user.fullName }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="applicationForm.get('managerId')?.hasError('required')"
+            >Please select manager</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field fxFlex="48" fxFlex.xs="100">
+          <mat-label>Start Date</mat-label>
+          <input
+            matInput
+            [min]="minStartDate"
+            [matDatepicker]="startDatePicker"
+            formControlName="startDate"
+            (dateChange)="onStartDateChange()"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="startDatePicker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #startDatePicker></mat-datepicker>
+          <mat-error
+            *ngIf="applicationForm.get('startDate')?.hasError('required')"
+            >Please select leave start date</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field fxFlex="48" fxFlex.xs="100">
+          <mat-label>End Date</mat-label>
+          <input
+            matInput
+            [min]="minEndDate"
+            [matDatepicker]="endDatePicker"
+            formControlName="endDate"
+            (dateChange)="onEndDateChange()"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="endDatePicker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #endDatePicker></mat-datepicker>
+          <mat-error *ngIf="applicationForm.get('endDate')?.hasError('required')"
+            >Please select leave end date</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field fxFlex="48" fxFlex.xs="100">
+          <mat-label>Return Date</mat-label>
+          <input
+            matInput
+            [min]="minReturnDate"
+            [matDatepicker]="returnDatePicker"
+            formControlName="returnDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="returnDatePicker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #returnDatePicker></mat-datepicker>
+          <mat-error
+            *ngIf="applicationForm.get('returnDate')?.hasError('required')"
+            >Please select return from leave date</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field fxFlex="48" fxFlex.xs="100">
+          <mat-label>Number of Days</mat-label>
+          <input matInput type="number" formControlName="numberOfDays" />
+          <mat-error
+            *ngIf="applicationForm.get('numberOfDays')?.hasError('required')"
+            >Please provide number of days</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field fxFlex="100" fxFlex.xs="100">
+          <mat-label>General Comments</mat-label>
+          <textarea placeholder="Describe Reason" matInput formControlName="generalComments"></textarea>
+          <mat-error
+            *ngIf="applicationForm.get('generalComments')?.hasError('required')"
+            >Please describe reason</mat-error>
+        </mat-form-field>
+
+        <div fxLayout="row" fxLayoutGap="20px" style="padding: 20px;">
+          <button mat-raised-button color="primary">Submit</button>
+          <div fxLayout="row" fxLayoutAlign="center center" style="flex-grow: 1;">
+          </div>
+          <button
+            mat-raised-button
+            color="basic"
+            (click)="onCancel(); $event.preventDefault()">Cancel</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+  
